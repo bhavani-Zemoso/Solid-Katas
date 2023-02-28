@@ -1,0 +1,2 @@
+- Task list kata
+- Christmas lights kata
