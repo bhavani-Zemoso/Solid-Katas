@@ -4,11 +4,11 @@ public class Application {
     public static void main(String[] args) {
         Application app = new Application();
 
-        app.execute(new LightToggleService());
+        app.execute(new LightSwitchService());
         app.execute(new LightBrightnessService());
     }
 
-    public void execute(LightService lightService) {
+    public void execute(MyLightService lightService) {
         lightService.on(887, 959, 9, 629 );
         lightService.on(454, 844, 398, 448);
 

@@ -1,38 +1,39 @@
 package org.example;
 
-import java.util.Arrays;
 
-public class LightBrightnessService implements MyLightService {
-    long lights[][];
+public class LightSwitchService implements MyLightService {
 
-    public LightBrightnessService() {
-        lights = new long[1000][1000];
+    boolean lights[][];
+
+    public LightSwitchService() {
+        lights = new boolean[1000][1000];
     }
-    @Override
+
     public void on(int startRow, int endRow, int startColumn, int endColumn) {
         for(int i = startRow; i <= endRow; i++)
             for(int j = startColumn; j <= endColumn; j++)
-                lights[i][j] += 1;
+                lights[i][j] = true;
     }
 
-    @Override
     public void off(int startRow, int endRow, int startColumn, int endColumn) {
         for(int i = startRow; i <= endRow; i++)
             for(int j = startColumn; j <= endColumn; j++)
-                lights[i][j] = Math.max(0, lights[i][j]--);
+                lights[i][j] = false;
     }
 
-    @Override
     public void toggle(int startRow, int endRow, int startColumn, int endColumn) {
         for(int i = startRow; i <= endRow; i++)
             for(int j = startColumn; j <= endColumn; j++)
-                lights[i][j] += 2;
+                lights[i][j] = !lights[i][j];
     }
 
-    @Override
     public long count() {
-        return Arrays.stream(lights)
-                .flatMapToLong(Arrays::stream)
-                .sum();
+        int count = 0;
+        for(int i = 0; i <= 999; i++)
+            for(int j = 0; j <= 999; j++)
+                if(lights[i][j])
+                    count++;
+
+        return count;
     }
 }
