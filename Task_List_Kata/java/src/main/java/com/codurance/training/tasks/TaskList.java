@@ -19,7 +19,10 @@ public final class TaskList implements Runnable {
     private final BufferedReader in;
     private final PrintWriter out;
 
-    ShowService showService;
+    ShowByProjectService showByProjectService;
+    ShowByDateService showByDateService;
+    ShowByDeadlineService showByDeadlineService;
+    ShowDueTaskService showDueTaskService;
     CheckService checkService;
 
     AddProject addProject;
@@ -36,7 +39,10 @@ public final class TaskList implements Runnable {
     public TaskList(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
-        showService = new ShowServiceImpl(out);
+        showByProjectService = new ShowByProjectServiceImpl(out);
+        showByDeadlineService = new ShowByDeadlineServiceImpl(out);
+        showByDateService = new ShowByDateServiceImpl(out);
+        showDueTaskService = new ShowDueTaskServiceImpl(out);
         checkService = new CheckServiceImpl(out, tasks);
         addProject = new AddProjectImpl(tasks);
         addTask = new AddTaskImpl(tasks, out);
@@ -81,7 +87,7 @@ public final class TaskList implements Runnable {
                 addTask.addDeadlineToTask(taskDeadline[0], taskDeadline[1]);
                 break;
             case "today":
-                showService.showDueTodayTasks(tasks);
+                showDueTaskService.showDueTodayTasks(tasks);
                 break;
             case "view":
                 view(commandRest[1]);
@@ -108,11 +114,11 @@ public final class TaskList implements Runnable {
 
     private void view(String command) {
         if(command.equals("by date"))
-            showService.showByDate(tasks);
+            showByDateService.showByDate(tasks);
         else if(command.equals("by deadline"))
-            showService.showByDeadline(tasks);
+            showByDeadlineService.showByDeadline(tasks);
         else if(command.equals("by project"))
-            showService.showByProject(tasks);
+            showByProjectService.showByProject(tasks);
     }
 
     private void help() {
